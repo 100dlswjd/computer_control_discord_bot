@@ -1,0 +1,3 @@
+pyside6
+opencv-contrib-python
+Pillow
