@@ -31,39 +31,39 @@ class Ui_MainWindow(object):
         self.verticalLayout = QVBoxLayout()
         self.verticalLayout.setObjectName(u"verticalLayout")
         self.verticalLayout.setContentsMargins(4, 4, 4, 4)
-        self.label_2 = QLabel(self.centralwidget)
-        self.label_2.setObjectName(u"label_2")
-        self.label_2.setAlignment(Qt.AlignCenter)
+        self.label_info = QLabel(self.centralwidget)
+        self.label_info.setObjectName(u"label_info")
+        self.label_info.setAlignment(Qt.AlignCenter)
 
-        self.verticalLayout.addWidget(self.label_2)
+        self.verticalLayout.addWidget(self.label_info)
 
         self.horizontalLayout = QHBoxLayout()
         self.horizontalLayout.setObjectName(u"horizontalLayout")
         self.horizontalLayout.setContentsMargins(4, 4, 4, 4)
-        self.label = QLabel(self.centralwidget)
-        self.label.setObjectName(u"label")
+        self.label_bot_token = QLabel(self.centralwidget)
+        self.label_bot_token.setObjectName(u"label_bot_token")
 
-        self.horizontalLayout.addWidget(self.label)
+        self.horizontalLayout.addWidget(self.label_bot_token)
 
-        self.lineEdit = QLineEdit(self.centralwidget)
-        self.lineEdit.setObjectName(u"lineEdit")
+        self.lineEdit_bot_token = QLineEdit(self.centralwidget)
+        self.lineEdit_bot_token.setObjectName(u"lineEdit_bot_token")
 
-        self.horizontalLayout.addWidget(self.lineEdit)
+        self.horizontalLayout.addWidget(self.lineEdit_bot_token)
 
 
         self.verticalLayout.addLayout(self.horizontalLayout)
 
         self.horizontalLayout_3 = QHBoxLayout()
         self.horizontalLayout_3.setObjectName(u"horizontalLayout_3")
-        self.pushButton = QPushButton(self.centralwidget)
-        self.pushButton.setObjectName(u"pushButton")
-        sizePolicy = QSizePolicy(QSizePolicy.Fixed, QSizePolicy.Fixed)
+        self.pushButton_start = QPushButton(self.centralwidget)
+        self.pushButton_start.setObjectName(u"pushButton_start")
+        sizePolicy = QSizePolicy(QSizePolicy.Maximum, QSizePolicy.Fixed)
         sizePolicy.setHorizontalStretch(0)
         sizePolicy.setVerticalStretch(0)
-        sizePolicy.setHeightForWidth(self.pushButton.sizePolicy().hasHeightForWidth())
-        self.pushButton.setSizePolicy(sizePolicy)
+        sizePolicy.setHeightForWidth(self.pushButton_start.sizePolicy().hasHeightForWidth())
+        self.pushButton_start.setSizePolicy(sizePolicy)
 
-        self.horizontalLayout_3.addWidget(self.pushButton)
+        self.horizontalLayout_3.addWidget(self.pushButton_start)
 
 
         self.verticalLayout.addLayout(self.horizontalLayout_3)
@@ -87,8 +87,8 @@ class Ui_MainWindow(object):
 
     def retranslateUi(self, MainWindow):
         MainWindow.setWindowTitle(QCoreApplication.translate("MainWindow", u"\ucee8\ud2b8\ub864\ub7ec", None))
-        self.label_2.setText(QCoreApplication.translate("MainWindow", u"\ub514\uc2a4\ucf54\ub4dc \ubd07\uc73c\ub85c \ucef4\ud4e8\ud130 \ucee8\ud2b8\ub864 \ud558\uae30", None))
-        self.label.setText(QCoreApplication.translate("MainWindow", u"discord_bot_token : ", None))
-        self.pushButton.setText(QCoreApplication.translate("MainWindow", u"\uc2dc\uc791(F8)", None))
+        self.label_info.setText(QCoreApplication.translate("MainWindow", u"\ub514\uc2a4\ucf54\ub4dc \ubd07\uc73c\ub85c \ucef4\ud4e8\ud130 \ucee8\ud2b8\ub864 \ud558\uae30", None))
+        self.label_bot_token.setText(QCoreApplication.translate("MainWindow", u"discord_bot_token : ", None))
+        self.pushButton_start.setText(QCoreApplication.translate("MainWindow", u"\uc2dc\uc791", None))
     # retranslateUi
 
