@@ -1,16 +1,11 @@
-import discord
 import sys
 import os
-import time
 
-from threading import Thread, Event
+import discord
 from discord.ext import commands
 import My_class.keyboardTool as keyboardTool
 
-from PIL import Image
 from PIL import ImageGrab
-from PIL import ImageDraw
-
 
 def resource_path(relative_path):
     """ Get absolute path to resource, works for dev and for PyInstaller """
