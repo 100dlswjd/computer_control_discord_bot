@@ -40,12 +40,153 @@ class discord_bot():
         @self.bot.command()
         async def h(ctx):
             message = """
-h = 명령어 도움말
-s = 화면 스크린샷
-p = 키보드 입력
-dk = 키보드 두개 같이 입력(ex ctrl + a)
-off = 컴퓨터 종료
+>h = 명령어 도움말
+>hk = 키 목록(좀 많음)
+>s = 화면 스크린샷
+>p (key)= 키보드 입력
+>dk (key) (key)= 키보드 두개 같이 입력(ex ctrl + a)
+>off = 컴퓨터 종료
         """
+            await ctx.send(message)
+
+        @self.bot.command()
+        async def hk(ctx):
+            message ="""```
+backspace
+tab
+clear
+enter
+shift
+ctrl
+alt
+pause
+caps_lock
+esc
+spacebar
+page_up
+page_down
+end
+home
+left_arrow
+up_arrow
+right_arrow
+down_arrow
+select
+print
+execute
+print_screen
+ins
+del
+help
+0
+1
+2
+3
+4
+5
+6
+7
+8
+9
+a
+b
+c
+d
+e
+f
+g
+h
+i
+j
+k
+l
+m
+n
+o
+p
+q
+r
+s
+t
+u
+v
+w
+x
+y
+z
+numpad_0
+numpad_1
+numpad_2
+numpad_3
+numpad_4
+numpad_5
+numpad_6
+numpad_7
+numpad_8
+numpad_9
+multiply_key
+add_key
+separator_key
+subtract_key
+decimal_key
+divide_key
+f1
+f2
+f3
+f4
+f5
+f6
+f7
+f8
+f9
+f10
+f11
+f12
+num_lock
+scroll_lock
+left_shift
+right_shift
+left_control
+right_control
+left_menu
+right_menu
+browser_back
+browser_forward
+browser_refresh
+browser_stop
+browser_search
+browser_favorites
+browser_start_and_home
+volume_mute
+volume_Down
+volume_up
+next_track
+previous_track
+stop_media
+play/pause_media
+start_mail
+select_media
+start_application_1
+start_application_2
+attn_key
+crsel_key
+exsel_key
+play_key
+zoom_key
+clear_key
++
+,
+-
+.
+/
+`
+;
+[
+\\
+]
+'
+`
+```"""
             await ctx.send(message)
 
         @self.bot.command()
@@ -75,6 +216,7 @@ off = 컴퓨터 종료
             keyboardTool.release(arg1)
             self.img_save()
             await ctx.send("screen",file = discord.File(self.save_path))
+
 
         @self.bot.command()
         async def off(ctx):
