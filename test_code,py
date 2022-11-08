@@ -1,0 +1,73 @@
+import sys
+import os
+import discord
+import src.My_class.keyboardTool as keyboardTool
+
+from discord.ext import commands
+
+intents = discord.Intents.default()
+intents.message_content = True
+bot = commands.Bot(command_prefix=">", intents=intents)
+
+from PIL import Image
+from PIL import ImageGrab
+from PIL import ImageDraw
+
+def resource_path(relative_path):
+    """ Get absolute path to resource, works for dev and for PyInstaller """
+    try:
+        # PyInstaller creates a temp folder and stores path in _MEIPASS
+        base_path = sys._MEIPASS
+    except Exception:
+        base_path = os.path.abspath(".")
+    return os.path.join(base_path, relative_path)
+save_path = resource_path("temp.png")
+
+def img_save():
+    img = ImageGrab.grab()
+    img.save(save_path)
+    
+@bot.command()
+async def h(ctx):
+    message = """
+h = 명령어 도움말
+s = 화면 스크린샷
+p = 키보드 입력
+dk = 키보드 두개 같이 입력(ex ctrl + a)
+off = 컴퓨터 종료"""
+    await ctx.send(message)
+
+@bot.command()
+async def s(ctx):
+    """
+    화면 스크린샷
+    """
+    img_save()
+    await ctx.send("screen",file = discord.File(save_path))
+
+@bot.command()
+async def p(ctx, arg1 : str):
+    """
+    키 하나만 누를때
+    """
+    keyboardTool.press(arg1)
+    img_save()
+    await ctx.send("screen",file = discord.File(save_path))
+
+@bot.command()
+async def dk(ctx, arg1 : str, arg2 : str):
+    """
+    키 두개 같이 누를때(ex ctrl + a)
+    """
+    keyboardTool.pressAndHold(arg1)
+    keyboardTool.press(arg2)
+    keyboardTool.release(arg1)
+    img_save()
+    await ctx.send("screen",file = discord.File(save_path))
+
+@bot.command()
+async def off(ctx):
+    os.system("shutdown -s -t 3")
+    await ctx.send("컴퓨터 종료")
+
+bot.run("token")
