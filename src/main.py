@@ -1,14 +1,27 @@
 import sys
+import ctypes
+import os
 
 from PySide6.QtWidgets import QMainWindow, QApplication
-from PySide6.QtGui import QCloseEvent
+from PySide6.QtGui import QCloseEvent, QPixmap
 from ui.main_form import Ui_MainWindow
 import My_class.bot_class as bot_class
 
 from threading import Thread, Event
 
+def resource_path(relative_path):
+    """ Get absolute path to resource, works for dev and for PyInstaller """
+    try:
+        # PyInstaller creates a temp folder and stores path in _MEIPASS
+        base_path = sys._MEIPASS
+    except Exception:
+        base_path = os.path.abspath(".")
+    return os.path.join(base_path, relative_path)
+
 class Mainwindow(QMainWindow, Ui_MainWindow):
     def __init__(self):
+        myappid = 'ddat_discord_bot' # arbitrary string
+        ctypes.windll.shell32.SetCurrentProcessExplicitAppUserModelID(myappid)
         super(Mainwindow, self).__init__()
         self.setupUi(self)
         self.start_flag = False
@@ -62,5 +75,10 @@ class Mainwindow(QMainWindow, Ui_MainWindow):
 if __name__ == "__main__":
     app = QApplication(sys.argv)
     window = Mainwindow()
+    ddat = resource_path("icon/ddat_discord_bot.ico")
+    # ddat = resource_path("src/icon/ddat_discord_bot.ico")
+    ddat_pixmap = QPixmap(ddat)
+    app.setWindowIcon(ddat_pixmap)
+    app.setStyle('Fusion')
     window.show()
     app.exec()
