@@ -4,6 +4,7 @@ import os
 import discord
 from discord.ext import commands
 import My_class.keyboardTool as keyboardTool
+from discord.ui import View
 
 from PIL import ImageGrab
 
@@ -16,42 +17,17 @@ def resource_path(relative_path):
         base_path = os.path.abspath(".")
     return os.path.join(base_path, relative_path)
 
-class discord_bot():
-    def __init__(self, bot_token):
-        self.bot_token = bot_token
-        self.save_path = resource_path("temp.png")
-        intents = discord.Intents.default()        
-        intents.message_content = True
-        self.bot = commands.Bot(command_prefix=">", intents=intents)
 
-    def token_set(self, bot_token):
-        self.bot_token = bot_token
-    
-    def img_save(self):
-        img = ImageGrab.grab()
-        img.save(self.save_path)
+save_path = resource_path("temp.png")
 
-    def start(self):
-        @self.bot.command()
-        async def screen(ctx):
-            self.img_save()
-            await ctx.send("screen", file = discord.File(self.save_path))
-            
-        @self.bot.command()
-        async def h(ctx):
-            message = """
->h = 명령어 도움말
->hk = 키 목록(좀 많음)
->s = 화면 스크린샷
->p (key)= 키보드 입력
->dk (key) (key)= 키보드 두개 같이 입력(ex ctrl + a)
->off = 컴퓨터 종료
-        """
-            await ctx.send(message)
+def img_save():
+    img = ImageGrab.grab()
+    img.save(save_path)
 
-        @self.bot.command()
-        async def hk(ctx):
-            message ="""```
+class Key_view(View):
+    @discord.ui.button(label="키 목록", style=discord.ButtonStyle.red)
+    async def button_key_callback(self, button, Interaction):
+        message = """```
 backspace
 tab
 clear
@@ -187,24 +163,57 @@ clear_key
 '
 `
 ```"""
-            await ctx.send(message)
+        await Interaction.response.send_message(message)
+    
+    @discord.ui.button(label="키 입력 방법", style=discord.ButtonStyle.red)
+    async def button_key_callback(self, button, Interaction):
+        message = """
+.k (key) = 키 하나 입력
+.dk (key) (key) = 키 두개 동시 입력(ex ctrl + a)
+        """
+        await Interaction.response.send_message(message)
+
+
+class Help_view(View):
+    @discord.ui.button(label="키 도움말", style=discord.ButtonStyle.grey)
+    async def button_key_callback(self, button, Interaction):
+        await Interaction.response.send_message(view = Key_view())
+    
+    @discord.ui.button(label="화면", style=discord.ButtonStyle.green)
+    async def button_screen_callback(self, button, Interaction):
+        img_save()
+        await Interaction.response.send_message("스크린샷", file = discord.File(save_path))
+
+    @discord.ui.button(label="컴퓨터 끄기", style=discord.ButtonStyle.red)
+    async def button_off_callback(self, button, Interaction):
+        os.system("shutdown -s -t 3")
+        await Interaction.response.send_message("컴퓨터를 종료합니다.")
+
+
+class discord_bot():
+    def __init__(self, bot_token):
+        self.bot_token = bot_token
+        intents = discord.Intents.default()        
+        intents.message_content = True
+        self.bot = commands.Bot(command_prefix=".", intents=intents)
+    
+
+    def token_set(self, bot_token):
+        self.bot_token = bot_token
+    
+    def start(self):
+        @self.bot.command()
+        async def h(ctx):
+            await ctx.send("도움말", view = Help_view())
 
         @self.bot.command()
-        async def s(ctx):
-            """
-            화면 스크린샷
-            """
-            self.img_save()
-            await ctx.send("screen",file = discord.File(self.save_path))
-
-        @self.bot.command()
-        async def p(ctx, arg1 : str):
+        async def k(ctx, arg1 : str):
             """
             키 하나만 누를때
             """
             keyboardTool.press(arg1)
-            self.img_save()
-            await ctx.send("screen",file = discord.File(self.save_path))
+            img_save()
+            await ctx.send("screen",file = discord.File(save_path))
 
         @self.bot.command()
         async def dk(ctx, arg1 : str, arg2 : str):
@@ -214,14 +223,8 @@ clear_key
             keyboardTool.pressAndHold(arg1)
             keyboardTool.press(arg2)
             keyboardTool.release(arg1)
-            self.img_save()
+            img_save()
             await ctx.send("screen",file = discord.File(self.save_path))
-
-
-        @self.bot.command()
-        async def off(ctx):
-            os.system("shutdown -s -t 3")
-            await ctx.send("컴퓨터 종료")
                 
         self.bot.run(self.bot_token)
        

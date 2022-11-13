@@ -163,8 +163,8 @@ def resource_path(relative_path):
         base_path = os.path.abspath(".")
     return os.path.join(base_path, relative_path)
 
-# dd64 = resource_path("src/dll/DD64.dll")
-dd64 = resource_path("dll/DD64.dll")
+dd64 = resource_path("src/dll/DD64.dll")
+# dd64 = resource_path("dll/DD64.dll")
 mydll = ctypes.windll.LoadLibrary(dd64)
 
 DD_key = mydll["DD_key"]
