@@ -1,5 +1,6 @@
 import sys
 import os
+import clipboard
 
 import discord
 from discord.ext import commands
@@ -26,7 +27,7 @@ def img_save():
 
 class Key_view(View):
     @discord.ui.button(label="키 목록", style=discord.ButtonStyle.red)
-    async def button_key_callback(self, button, Interaction):
+    async def button_key_list_callback(self, button, Interaction):
         message = """```
 backspace
 tab
@@ -166,9 +167,10 @@ clear_key
         await Interaction.response.send_message(message)
     
     @discord.ui.button(label="키 입력 방법", style=discord.ButtonStyle.red)
-    async def button_key_callback(self, button, Interaction):
+    async def button_key_help_callback(self, button, Interaction):
         message = """
 .k (key) = 키 하나 입력
+.ks (문자) = 문자 입력
 .dk (key) (key) = 키 두개 동시 입력(ex ctrl + a)
         """
         await Interaction.response.send_message(message)
@@ -214,6 +216,18 @@ class discord_bot():
             keyboardTool.press(arg1)
             img_save()
             await ctx.send("screen",file = discord.File(save_path))
+        
+        @self.bot.command()
+        async def ks(ctx, arg1 : str):
+            """
+            문자열 입력할때
+            """
+            clipboard.copy(arg1)
+            keyboardTool.pressAndHold("ctrl")
+            keyboardTool.press("v")
+            keyboardTool.release("ctrl")
+            img_save()
+            await ctx.send("screen", file = discord.File(save_path))
 
         @self.bot.command()
         async def dk(ctx, arg1 : str, arg2 : str):
